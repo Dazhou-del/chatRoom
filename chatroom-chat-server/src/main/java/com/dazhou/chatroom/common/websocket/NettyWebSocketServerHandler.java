@@ -1,12 +1,11 @@
 package com.dazhou.chatroom.common.websocket;
 
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
 
-import com.dazhou.chatroom.common.user.domain.enums.WSReqTypeEnum;
-import com.dazhou.chatroom.common.user.domain.enums.WSRespTypeEnum;
-import com.dazhou.chatroom.common.user.domain.vo.req.WSBaseReq;
+import com.dazhou.chatroom.common.websocket.domain.enums.WSReqTypeEnum;
+import com.dazhou.chatroom.common.websocket.domain.vo.req.WSBaseReq;
+import com.dazhou.chatroom.common.websocket.service.WebSocketService;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -15,12 +14,18 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
-import nonapi.io.github.classgraph.json.Id;
 
 
 @Slf4j
 @Sharable
 public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+
+    private WebSocketService webSocketService;
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        webSocketService= SpringUtil.getBean(WebSocketService.class);
+        webSocketService.connect(ctx.channel());
+    }
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
@@ -35,6 +40,8 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
                 System.out.println("读空闲");
                 //todo 用户下线
 
+                //让连接关闭
+                ctx.channel().close();
             }
         }
 
@@ -46,10 +53,10 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
         WSBaseReq wsBaseReq = JSONUtil.toBean(text, WSBaseReq.class);
         switch (WSReqTypeEnum.of(wsBaseReq.getType())){
             case LOGIN:
-                System.out.println("请求二维码");
-                ctx.channel().writeAndFlush(new TextWebSocketFrame("123"));
+                webSocketService.handleLoginReq(ctx.channel());
             case  HEARTBEAT:
             case  AUTHORIZE:
+
         }
     }
 }
