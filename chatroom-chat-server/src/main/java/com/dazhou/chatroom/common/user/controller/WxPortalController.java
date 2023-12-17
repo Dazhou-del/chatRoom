@@ -1,5 +1,6 @@
 package com.dazhou.chatroom.common.user.controller;
 
+import com.dazhou.chatroom.common.user.service.WXMsgService;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,10 @@ public class WxPortalController {
     @Autowired
     private WxMpService wxMpService;
 
+    @Autowired
+    private WXMsgService wxMsgService;
+
+
     @GetMapping("/test")
     public  String test(@Parameter String code) throws WxErrorException {
         //生成一个携带code的url
@@ -64,9 +69,13 @@ public class WxPortalController {
     @GetMapping("/callBack")
     public RedirectView callBack(@RequestParam String code) throws WxErrorException {
         WxOAuth2AccessToken accessToken = wxMpService.getOAuth2Service().getAccessToken(code);
-        WxOAuth2UserInfo zhCn = wxMpService.getOAuth2Service().getUserInfo(accessToken, "zh_cn");
-        System.out.println(zhCn);
-        return null;
+        //微信用户详细信息
+        WxOAuth2UserInfo userInfo = wxMpService.getOAuth2Service().getUserInfo(accessToken, "zh_cn");
+        wxMsgService.authorize(userInfo);
+        //成功后重定向到网站首页
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl("www.baidu.com");
+        return redirectView;
     }
 
     @PostMapping(produces = "application/xml; charset=UTF-8")

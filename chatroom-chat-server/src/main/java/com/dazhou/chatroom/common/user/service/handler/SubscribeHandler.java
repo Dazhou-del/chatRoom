@@ -2,13 +2,15 @@ package com.dazhou.chatroom.common.user.service.handler;
 
 
 
-import javafx.scene.text.TextBuilder;
+import com.dazhou.chatroom.common.user.service.WXMsgService;
 
+import com.dazhou.chatroom.common.user.service.adapter.TextBuilder;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -19,7 +21,18 @@ import java.util.Map;
 @Component
 public class SubscribeHandler extends AbstractHandler {
 
+    @Autowired
+    private WXMsgService wxMsgService;
 
+    /**
+     * 新用户扫码进入这个方法
+     * @param wxMessage
+     * @param context
+     * @param weixinService
+     * @param sessionManager
+     * @return
+     * @throws WxErrorException
+     */
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
                                     Map<String, Object> context, WxMpService weixinService,
@@ -29,7 +42,7 @@ public class SubscribeHandler extends AbstractHandler {
 
         WxMpXmlOutMessage responseResult = null;
         try {
-//            responseResult = this.handleSpecial(weixinService, wxMessage);
+            responseResult = wxMsgService.scan(wxMessage);
         } catch (Exception e) {
             this.logger.error(e.getMessage(), e);
         }
@@ -38,13 +51,7 @@ public class SubscribeHandler extends AbstractHandler {
             return responseResult;
         }
 
-        try {
-//            return new TextBuilder().build("感谢关注", wxMessage, weixinService);
-        } catch (Exception e) {
-            this.logger.error(e.getMessage(), e);
-        }
-
-        return null;
+        return TextBuilder.build("感谢关注",wxMessage);
     }
 
 

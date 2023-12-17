@@ -2,7 +2,7 @@ package com.dazhou.chatroom.common.user.dao;
 
 import com.dazhou.chatroom.common.user.domain.entity.User;
 import com.dazhou.chatroom.common.user.mapper.UserMapper;
-import com.dazhou.chatroom.common.user.service.IUserService;
+import com.dazhou.chatroom.common.user.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,13 @@ import org.springframework.stereotype.Service;
  * @since 2023-12-03
  */
 @Service
-public class UserDao extends ServiceImpl<UserMapper, User> implements IUserService {
+public class UserDao extends ServiceImpl<UserMapper, User>  {
+
+
+    public User getByOpenId(String openId){
+        return lambdaQuery()
+                .eq(User::getOpenId, openId)
+                .one();
+    }
 
 }

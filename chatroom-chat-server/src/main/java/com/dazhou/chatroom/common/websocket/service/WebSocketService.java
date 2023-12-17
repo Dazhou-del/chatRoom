@@ -15,4 +15,11 @@ public interface WebSocketService {
      * @param channel
      */
     void handleLoginReq(Channel channel);
+
+    /**
+     * channel 断开连接
+     * @param channel
+     */
+    void offline(Channel channel);
+
 }

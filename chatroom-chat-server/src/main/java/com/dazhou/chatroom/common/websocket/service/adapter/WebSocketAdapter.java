@@ -17,7 +17,9 @@ public class WebSocketAdapter {
      */
     public static WsBaseResp<?> buildResp(WxMpQrCodeTicket wxMpQrCodeTicket) {
         WsBaseResp<WSLoginUrl> resp = new WsBaseResp<>();
+        //设置类型
         resp.setType(WSRespTypeEnum.LOGIN_URL.getType());
+        //设置url
         resp.setData(new WSLoginUrl(wxMpQrCodeTicket.getUrl()));
         return  resp;
     }

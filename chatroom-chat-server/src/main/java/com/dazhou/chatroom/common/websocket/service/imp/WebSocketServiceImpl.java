@@ -50,10 +50,26 @@ public class WebSocketServiceImpl implements WebSocketService {
             .expireAfterWrite(DURATION)  //设置过期时间
             .build();
 
+    /**
+     * 将channel与用户绑定
+     * @param channel
+     */
     @Override
     public void connect(Channel channel) {
         ONLINE_WS_MAP.put(channel,new WSChannelExtraDTO());
     }
+
+    /**
+     * 将channel与用户解绑
+     * @param channel
+     */
+    @Override
+    public void offline(Channel channel) {
+        ONLINE_WS_MAP.remove(channel);
+        //todo 用户下线
+    }
+
+
 
     /**
      * 生成code，申请二维码返回给前端
@@ -80,7 +96,7 @@ public class WebSocketServiceImpl implements WebSocketService {
             //随机生成code
             code= RandomUtil.randomInt(Integer.MAX_VALUE);
             //把生成的code设置到WAIT_LOGIN_MAP中，将这个code和channel绑定
-        }while (Objects.isNull(WAIT_LOGIN_MAP.asMap().putIfAbsent(code,channel)));   //code必须不一样才能设置成功 成功返回Null
+        }while (Objects.nonNull(WAIT_LOGIN_MAP.asMap().putIfAbsent(code,channel)));   //code必须不一样才能设置成功 成功返回Null
         return code;
     }
 }

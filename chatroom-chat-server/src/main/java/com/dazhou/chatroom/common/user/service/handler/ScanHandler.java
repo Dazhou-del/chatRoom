@@ -1,6 +1,7 @@
 package com.dazhou.chatroom.common.user.service.handler;
 
 
+import com.dazhou.chatroom.common.user.service.WXMsgService;
 import com.dazhou.chatroom.common.user.service.adapter.TextBuilder;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
@@ -17,20 +18,25 @@ import java.util.Map;
 @Component
 public class ScanHandler extends AbstractHandler {
 
-    public static final String URL="https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 
-    @Value("${wx.mp.callback}")
-    private String callback;
+
+    @Autowired
+    private WXMsgService wxMsgService;
+
+    /**
+     * 不是新用户扫码进入这个方法
+     * @param wxMpXmlMessage
+     * @param map
+     * @param wxMpService
+     * @param wxSessionManager
+     * @return
+     * @throws WxErrorException
+     */
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> map,
                                     WxMpService wxMpService, WxSessionManager wxSessionManager) throws WxErrorException {
-        //获取url上的code
-        String code = wxMpXmlMessage.getEventKey();
-        String openId = wxMpXmlMessage.getFromUser();
+        return wxMsgService.scan(wxMpXmlMessage);
 
-        //todo 扫码
-        String authorizeUrl=String.format(URL,wxMpService.getWxMpConfigStorage().getAppId(), URLEncoder.encode(callback+"/wx/portal/public/callBack"));
-        return TextBuilder.build("请点击链接授权：<a href=\"" + authorizeUrl + "\">登录</a>",wxMpXmlMessage);
     }
 
 }
