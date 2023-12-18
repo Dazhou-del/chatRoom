@@ -22,4 +22,16 @@ public interface WebSocketService {
      */
     void offline(Channel channel);
 
+    /**
+     * 扫码成功后
+     * @param code
+     * @param id
+     */
+    void scanLoginSuccess(Integer code, Long id);
+
+    /**
+     * 发送等待授权的消息给前端
+     * @param code
+     */
+    void waitAuthorize(Integer code);
 }

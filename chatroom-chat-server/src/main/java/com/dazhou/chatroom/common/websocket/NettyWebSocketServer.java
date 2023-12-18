@@ -69,7 +69,7 @@ public class NettyWebSocketServer {
                         ChannelPipeline pipeline = socketChannel.pipeline();
                         //30秒客户端没有向服务器发送心跳则关闭连接
                         //3个参数 第一个读空闲时间，第二个写 第三个全部。
-                        pipeline.addLast(new IdleStateHandler(30, 0, 0));
+//                        pipeline.addLast(new IdleStateHandler(30, 0, 0));
                         // 因为使用http协议，所以需要使用http的编码器，解码器
                         pipeline.addLast(new HttpServerCodec());
                         // 以块方式写，添加 chunkedWriter 处理器

@@ -71,6 +71,7 @@ public class WxPortalController {
         WxOAuth2AccessToken accessToken = wxMpService.getOAuth2Service().getAccessToken(code);
         //微信用户详细信息
         WxOAuth2UserInfo userInfo = wxMpService.getOAuth2Service().getUserInfo(accessToken, "zh_cn");
+        //更新用户信息
         wxMsgService.authorize(userInfo);
         //成功后重定向到网站首页
         RedirectView redirectView = new RedirectView();

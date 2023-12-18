@@ -2,6 +2,9 @@ package com.dazhou.chatroom.common.websocket.service.imp;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
+import com.dazhou.chatroom.common.user.dao.UserDao;
+import com.dazhou.chatroom.common.user.domain.entity.User;
+import com.dazhou.chatroom.common.user.service.LoginService;
 import com.dazhou.chatroom.common.websocket.domain.dto.WSChannelExtraDTO;
 import com.dazhou.chatroom.common.websocket.domain.enums.WSRespTypeEnum;
 import com.dazhou.chatroom.common.websocket.domain.vo.req.WSBaseReq;
@@ -13,10 +16,13 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.swagger.models.auth.In;
 import lombok.SneakyThrows;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -31,7 +37,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 public class WebSocketServiceImpl implements WebSocketService {
+
     @Autowired
+    private LoginService loginService;
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    @Lazy
     private WxMpService wxMpService;
 
     /**
@@ -82,7 +96,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         Integer code=generateLoginCode(channel);
         //找微信申请带参二维码
         WxMpQrCodeTicket wxMpQrCodeTicket = wxMpService.getQrcodeService().qrCodeCreateTmpTicket(code, (int) DURATION.getSeconds());
-        //把码推送给前端
+        //封装信息，把码推送给前端
         sendMsg(channel, WebSocketAdapter.buildResp(wxMpQrCodeTicket));
     }
 
@@ -98,5 +112,31 @@ public class WebSocketServiceImpl implements WebSocketService {
             //把生成的code设置到WAIT_LOGIN_MAP中，将这个code和channel绑定
         }while (Objects.nonNull(WAIT_LOGIN_MAP.asMap().putIfAbsent(code,channel)));   //code必须不一样才能设置成功 成功返回Null
         return code;
+    }
+    @Override
+    public void scanLoginSuccess(Integer code, Long id) {
+        //确定连接在机器上
+        Channel channel = WAIT_LOGIN_MAP.getIfPresent(code);
+        if (Objects.isNull(channel)){
+            return;
+        }
+        User user = userDao.getById(id);
+        //移除code
+        WAIT_LOGIN_MAP.invalidate(code);
+        //获取登录模块获取Token
+        String token=loginService.login(id);
+        //封装信息 返回给前端
+        sendMsg(channel,WebSocketAdapter.buildResp(user,token));
+    }
+
+    @Override
+    public void waitAuthorize(Integer code) {
+        //确定连接在机器上
+        Channel channel = WAIT_LOGIN_MAP.getIfPresent(code);
+        if (Objects.isNull(channel)){
+            return;
+        }
+        sendMsg(channel,WebSocketAdapter.buildWaitAuthorizeResp());
+
     }
 }

@@ -69,7 +69,12 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
     }
 
 
-
+    /**
+     * 客户端发送消息 在这里接收
+     * @param ctx
+     * @param msg
+     * @throws Exception
+     */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
         String text = msg.text();
