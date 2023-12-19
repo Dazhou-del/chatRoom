@@ -5,5 +5,25 @@ package com.dazhou.chatroom.common.user.service;
  * @create 2023-12-18 20:53
  */
 public interface LoginService {
-    String login(Long id);
+
+    /**
+     * 刷新token有效期
+     * @param token
+     */
+    void renewalTokenIfNecessary(String token);
+
+    /**
+     * 登录成功，获取token
+     * @param uid
+     * @return token
+     */
+    String login(Long uid);
+
+    /**
+     * 如果token有效，返回uid
+     * @param token
+     * @return
+     */
+    Long getValidUid(String token);
+
 }
