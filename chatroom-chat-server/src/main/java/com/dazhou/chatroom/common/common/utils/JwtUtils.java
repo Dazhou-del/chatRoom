@@ -25,7 +25,7 @@ public class JwtUtils {
     /**
      * token秘钥，请勿泄露，请勿随便修改
      */
-    @Value("${mallchat.jwt.secret}")
+    @Value("${chatroom.jwt.secret}")
     private String secret;
 
     private static final String UID_CLAIM = "uid";
