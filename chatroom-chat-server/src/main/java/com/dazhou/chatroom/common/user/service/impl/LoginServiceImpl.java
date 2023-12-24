@@ -50,7 +50,7 @@ public class LoginServiceImpl implements LoginService {
             return null;
         }
         //获取旧的token 不为空说明都在有效期内
-        String oldToken = RedisUtils.get(RedisKey.getKey(RedisKey.USER_TOKEN_STRING, uid), String.class);
+        String oldToken = RedisUtils.getStr(RedisKey.getKey(RedisKey.USER_TOKEN_STRING, uid));
         return Objects.equals(oldToken, token) ? uid : null;
     }
 

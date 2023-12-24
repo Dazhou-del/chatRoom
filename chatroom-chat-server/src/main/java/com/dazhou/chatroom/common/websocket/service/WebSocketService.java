@@ -34,4 +34,11 @@ public interface WebSocketService {
      * @param code
      */
     void waitAuthorize(Integer code);
+
+    /**
+     * 当用户刷新时，channel会进行刷新，需要对token进行处理
+     * @param channel
+     * @param data
+     */
+    void authorizes(Channel channel, String data);
 }

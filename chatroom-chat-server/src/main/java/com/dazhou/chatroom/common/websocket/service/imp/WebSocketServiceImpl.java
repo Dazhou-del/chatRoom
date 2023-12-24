@@ -139,4 +139,25 @@ public class WebSocketServiceImpl implements WebSocketService {
         sendMsg(channel,WebSocketAdapter.buildWaitAuthorizeResp());
 
     }
+
+    @Override
+    public void authorizes(Channel channel, String token) {
+        Long validUid = loginService.getValidUid(token);
+        //token在有效期内
+        if (Objects.nonNull(validUid)){
+            User user = userDao.getById(validUid);
+            loginSuccess(channel,user,token);
+        }else{
+            //提醒用户重新登录
+            sendMsg(channel,WebSocketAdapter.buildWaitAuthorizeResp());
+        }
+    }
+
+    private void loginSuccess(Channel channel, User user, String token) {
+        //保存channel的对应uid
+        WSChannelExtraDTO wsChannelExtraDTO=ONLINE_WS_MAP.get(channel);
+        wsChannelExtraDTO.setUid(user.getId());
+        //推送成功信息
+        sendMsg(channel,WebSocketAdapter.buildResp(user,token));
+    }
 }
