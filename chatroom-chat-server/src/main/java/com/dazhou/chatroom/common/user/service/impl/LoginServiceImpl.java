@@ -38,6 +38,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public String login(Long uid) {
+        //eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjExMDA0LCJjcmVhdGVUaW1lIjoxNzA0ODA5NTE3fQ.Wi_k6fzr4O-vFlXgt_pd6p-5ijOLEPOtrFtkSzR6eEs
         String token = jwtUtils.createToken(uid);
         Boolean set = RedisUtils.set(RedisKey.getKey(RedisKey.USER_TOKEN_STRING, uid), token, TOKEN_EXPIRE_DAYS, TimeUnit.DAYS);
         return token;

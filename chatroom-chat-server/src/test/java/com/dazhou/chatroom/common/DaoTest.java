@@ -44,6 +44,13 @@ public class DaoTest {
     private LoginService loginService;
 
     @Test
+    public void jwt(){
+        //Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjExMDA0LCJjcmVhdGVUaW1lIjoxNzA0ODA5NTE3fQ.Wi_k6fzr4O-vFlXgt_pd6p-5ijOLEPOtrFtkSzR6eEs
+        String login = loginService.login(11004L);
+        System.out.println(login);
+    }
+
+    @Test
     public void test(){
         User byId = userDao.getById(1);
         System.out.println(byId);
