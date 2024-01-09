@@ -1,6 +1,7 @@
 package com.dazhou.chatroom.common.user.controller;
 
 
+import com.dazhou.chatroom.common.common.domain.vo.resp.ApiResult;
 import com.dazhou.chatroom.common.user.domain.vo.resp.UserInfoResp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,11 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/capi/user")
-@Api(value = "用户管理")
+@Api(tags = "用户相关接口")
 public class UserController {
     @GetMapping("/public/userInfo")
     @ApiOperation("获取用户详细信息")
-    public UserInfoResp getUserInfo(@RequestParam Long uid){
+    public ApiResult<UserInfoResp> getUserInfo(@RequestParam Long uid){
         return null;
     }
 }
