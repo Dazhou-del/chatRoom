@@ -1,6 +1,8 @@
 package com.dazhou.chatroom.common.user.service.adapter;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.dazhou.chatroom.common.user.domain.entity.User;
+import com.dazhou.chatroom.common.user.domain.vo.resp.UserInfoResp;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 
 /**
@@ -18,5 +20,12 @@ public class UserAdapter {
         user.setName(userInfo.getNickname());
         user.setAvatar(userInfo.getHeadImgUrl());
         return user;
+    }
+
+    public static UserInfoResp buildUserInfo(User user, Integer modifyNameCount) {
+        UserInfoResp userInfoResp = new UserInfoResp();
+        BeanUtil.copyProperties(user,userInfoResp);
+        userInfoResp.setModifyNameChance(modifyNameCount);
+        return userInfoResp;
     }
 }

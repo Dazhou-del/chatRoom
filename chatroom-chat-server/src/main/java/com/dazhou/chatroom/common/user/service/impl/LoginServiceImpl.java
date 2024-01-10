@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class LoginServiceImpl implements LoginService {
     //登录时间
-    public static final int TOKEN_EXPIRE_DAYS = 3;
+    public static final int TOKEN_EXPIRE_DAYS = 10;
     public static final int  TOKEN_RENEWAL_DAYS= 1;
     @Autowired
     private JwtUtils jwtUtils;
@@ -32,6 +32,7 @@ public class LoginServiceImpl implements LoginService {
             return;
         }
         if (expireDays < TOKEN_RENEWAL_DAYS) {
+            //续期
             RedisUtils.expire(RedisKey.getKey(RedisKey.USER_TOKEN_STRING, uid), TOKEN_EXPIRE_DAYS, TimeUnit.DAYS);
         }
     }

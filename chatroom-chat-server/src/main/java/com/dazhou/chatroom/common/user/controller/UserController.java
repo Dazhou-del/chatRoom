@@ -6,17 +6,19 @@ import com.dazhou.chatroom.common.common.domain.dto.RequestInfo;
 import com.dazhou.chatroom.common.common.domain.vo.resp.ApiResult;
 import com.dazhou.chatroom.common.common.interceptor.TokenInterceptor;
 import com.dazhou.chatroom.common.common.utils.RequestHolder;
+import com.dazhou.chatroom.common.user.domain.vo.req.ModifyNameReq;
 import com.dazhou.chatroom.common.user.domain.vo.resp.UserInfoResp;
+import com.dazhou.chatroom.common.user.service.UserService;
+import com.dazhou.chatroom.common.user.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -30,13 +32,20 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/capi/user")
 @Api(tags = "用户相关接口")
 public class UserController {
+    @Autowired
+    private UserServiceImpl userService;
+
     @GetMapping("/userInfo")
     @ApiOperation("获取用户详细信息")
     public ApiResult<UserInfoResp> getUserInfo(HttpServletRequest request){
-        RequestInfo requestInfo = RequestHolder.get();
-        System.out.println(requestInfo.getUid());
-        System.out.println(requestInfo.getIp());
-        return null;
+        return ApiResult.success(userService.getUserInfo(RequestHolder.get().getUid()));
+    }
+
+    @PutMapping("/name")
+    @ApiOperation("获取用户详细信息")
+    public ApiResult<UserInfoResp> modifyName(@Valid @RequestBody ModifyNameReq req){
+        userService.modifyName(RequestHolder.get().getUid(),req.getName());
+        return ApiResult.success();
     }
 }
 
