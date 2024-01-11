@@ -14,7 +14,7 @@ import lombok.Getter;
 public enum CommonErrorEnum implements ErrorEnum {
 
     PARAM_INVALID(-2,"参数校验失败"),
-    BUSINESS_CODE(0,"参数校验失败"),
+    BUSINESS_CODE(0,"{0}"),
     SYSTEM_ERROR(-1,"系统出小差了");
 
     private final Integer code;

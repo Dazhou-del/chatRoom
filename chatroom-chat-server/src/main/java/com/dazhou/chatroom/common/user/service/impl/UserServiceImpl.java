@@ -1,9 +1,11 @@
 package com.dazhou.chatroom.common.user.service.impl;
 
 import com.dazhou.chatroom.common.common.exception.BusinessException;
+import com.dazhou.chatroom.common.common.utils.AssertUtil;
 import com.dazhou.chatroom.common.user.dao.UserBackpackDao;
 import com.dazhou.chatroom.common.user.dao.UserDao;
 import com.dazhou.chatroom.common.user.domain.entity.User;
+import com.dazhou.chatroom.common.user.domain.entity.UserBackpack;
 import com.dazhou.chatroom.common.user.domain.enums.ItemEnum;
 import com.dazhou.chatroom.common.user.domain.vo.resp.UserInfoResp;
 import com.dazhou.chatroom.common.user.service.UserService;
@@ -44,11 +46,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void modifyName(Long uid, String name) {
         //看名字是否重复
         User oldUser = userDao.getByName(name);
-        if (Objects.nonNull(oldUser)){
+        //使用断言
+        AssertUtil.isEmpty(oldUser,"名字重复了 换个名字把");
+        //没使用断言时
+/*        if (Objects.nonNull(oldUser)){
             throw new BusinessException("名字重复换个名字把");
+        }*/
+        //是否拥有改名卡
+        UserBackpack modifyNameItem = userBackpackDao.getFirstValidItem(uid, ItemEnum.MODIFY_NAME_CARD.getId());
+        AssertUtil.isNotEmpty(modifyNameItem,"改名卡不够了");
+        //使用改名卡
+        boolean success = userBackpackDao.useItem(modifyNameItem);
+        if (success){
+            //改名
+            userDao.modifyName(uid,name);
         }
     }
 }
