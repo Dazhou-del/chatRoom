@@ -7,6 +7,8 @@ import com.dazhou.chatroom.common.common.domain.vo.resp.ApiResult;
 import com.dazhou.chatroom.common.common.interceptor.TokenInterceptor;
 import com.dazhou.chatroom.common.common.utils.RequestHolder;
 import com.dazhou.chatroom.common.user.domain.vo.req.ModifyNameReq;
+import com.dazhou.chatroom.common.user.domain.vo.req.WearingBadgeReq;
+import com.dazhou.chatroom.common.user.domain.vo.resp.BadgeResp;
 import com.dazhou.chatroom.common.user.domain.vo.resp.UserInfoResp;
 import com.dazhou.chatroom.common.user.service.UserService;
 import com.dazhou.chatroom.common.user.service.impl.UserServiceImpl;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -45,6 +48,19 @@ public class UserController {
     @ApiOperation("修改用户名字")
     public ApiResult<UserInfoResp> modifyName(@Valid @RequestBody ModifyNameReq req){
         userService.modifyName(RequestHolder.get().getUid(),req.getName());
+        return ApiResult.success();
+    }
+
+    @GetMapping("/badges")
+    @ApiOperation("可选徽章预览")
+    public ApiResult<List<BadgeResp>> badges(){
+        return ApiResult.success(userService.badges(RequestHolder.get().getUid()));
+    }
+
+    @PutMapping("/badge")
+    @ApiOperation("佩戴徽章")
+    public ApiResult<Void> WearingBadge(@Valid @RequestBody WearingBadgeReq req){
+        userService.WearingBadge(RequestHolder.get().getUid(),req.getItemId());
         return ApiResult.success();
     }
 }
