@@ -5,6 +5,9 @@ import com.dazhou.chatroom.common.common.config.ThreadPoolConfig;
 import com.dazhou.chatroom.common.common.utils.RedisUtils;
 import com.dazhou.chatroom.common.user.dao.UserDao;
 import com.dazhou.chatroom.common.user.domain.entity.User;
+import com.dazhou.chatroom.common.user.domain.enums.IdempotentEnum;
+import com.dazhou.chatroom.common.user.domain.enums.ItemEnum;
+import com.dazhou.chatroom.common.user.service.IUserBackpackService;
 import com.dazhou.chatroom.common.user.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -29,6 +32,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @Slf4j
 public class DaoTest {
+    public static final long UID = 11004L;
     @Autowired
     private UserDao userDao;
 
@@ -46,10 +50,16 @@ public class DaoTest {
     @Test
     public void jwt(){
         //Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjExMDA0LCJjcmVhdGVUaW1lIjoxNzA0ODA5NTE3fQ.Wi_k6fzr4O-vFlXgt_pd6p-5ijOLEPOtrFtkSzR6eEs
-        String login = loginService.login(11004L);
+        String login = loginService.login(UID);
         System.out.println(login);
     }
 
+    @Autowired
+    private IUserBackpackService iUserBackpackService;
+    @Test
+    public void acquireItem(){
+        iUserBackpackService.acquireItem(UID, ItemEnum.PLANET.getId(), IdempotentEnum.UID,UID+"");
+    }
     @Test
     public void test(){
         User byId = userDao.getById(1);

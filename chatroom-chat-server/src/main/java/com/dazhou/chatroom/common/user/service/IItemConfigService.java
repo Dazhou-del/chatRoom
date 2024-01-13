@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
  * @since 2024-01-07
  */
-public interface IItemConfigService extends IService<ItemConfig> {
+public interface IItemConfigService  {
 
 }

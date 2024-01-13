@@ -29,7 +29,7 @@ public class ItemCache {
     public List<ItemConfig> getByType(Integer itemType){
         return itemConfigDao.getByType(itemType);
     }
-    //@Cacheable 会先开是否有缓存，如果没有才会进入方法内
+    //@Cacheable 会先开是否有缓存，如果没有才会进入方法内.然后将查出的数据缓存
 //    @CachePut 添加缓存
 //    @CacheEvict 清除缓存
 
