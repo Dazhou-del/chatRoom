@@ -1,6 +1,7 @@
 package com.dazhou.chatroom.common.user.service.impl;
 
 import com.dazhou.chatroom.common.common.domain.enums.YesOrNoEnum;
+import com.dazhou.chatroom.common.common.service.LockService;
 import com.dazhou.chatroom.common.common.utils.AssertUtil;
 import com.dazhou.chatroom.common.user.dao.UserBackpackDao;
 import com.dazhou.chatroom.common.user.domain.entity.UserBackpack;
@@ -20,7 +21,7 @@ import java.util.Objects;
 @Service
 public class UserBackpackServiceImpl implements IUserBackpackService {
     @Autowired
-    private RedissonClient redissonClient;
+    private LockService lockService;
 
     @Autowired
     private UserBackpackDao userBackpackDao;
@@ -28,12 +29,7 @@ public class UserBackpackServiceImpl implements IUserBackpackService {
     public void acquireItem(Long uid, Long itemId, IdempotentEnum idempotentEnum, String businessId) {
         //获取幂等号
         String idempotent = getIdempotent(itemId, idempotentEnum, businessId);
-        //获取锁
-        RLock lock = redissonClient.getLock("acquireItem" + idempotent);
-        boolean b = lock.tryLock();
-        //判断锁是否存在  如果不是true 也就是没有获取到锁 则直接抛出异常
-        AssertUtil.isTrue(b,"请求太频繁");
-        try {
+        lockService.executeWithLock("acquireItem" + idempotent,()->{
             //判断该幂等是否存在
             UserBackpack userBackpack = userBackpackDao.getByIdempotent(idempotent);
             if (Objects.nonNull(userBackpack)) return;
@@ -45,9 +41,8 @@ public class UserBackpackServiceImpl implements IUserBackpackService {
                     .idempotent(idempotent)
                     .build();
             userBackpackDao.save(insert);
-        }finally {
-            lock.unlock();
-        }
+        });
+
     }
 
     /**
