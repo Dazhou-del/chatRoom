@@ -1,5 +1,7 @@
 package com.dazhou.chatroom.common.user.service.impl;
 
+import com.dazhou.chatroom.common.common.annotation.RedisssonLock;
+import com.dazhou.chatroom.common.common.event.UserRegisterEvent;
 import com.dazhou.chatroom.common.common.exception.BusinessException;
 import com.dazhou.chatroom.common.common.utils.AssertUtil;
 import com.dazhou.chatroom.common.user.dao.ItemConfigDao;
@@ -17,6 +19,7 @@ import com.dazhou.chatroom.common.user.service.adapter.UserAdapter;
 import com.dazhou.chatroom.common.user.service.cache.ItemCache;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +41,8 @@ public class UserServiceImpl implements UserService {
     private ItemCache itemCache;
     @Autowired
     private ItemConfigDao itemConfigDao;
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     @Transactional
@@ -45,6 +50,8 @@ public class UserServiceImpl implements UserService {
 
         boolean save = userDao.save(insert);
         //todo 用户注册的事件
+        //发布事件
+        applicationEventPublisher.publishEvent(new UserRegisterEvent(this,insert));
         return null;
     }
 
@@ -58,6 +65,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @RedisssonLock(key = "#uid")
     public void modifyName(Long uid, String name) {
         //看名字是否重复
         User oldUser = userDao.getByName(name);

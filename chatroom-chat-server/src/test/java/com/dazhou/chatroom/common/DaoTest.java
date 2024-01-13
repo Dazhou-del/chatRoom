@@ -49,7 +49,9 @@ public class DaoTest {
 
     @Test
     public void jwt(){
-        //Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjExMDA0LCJjcmVhdGVUaW1lIjoxNzA0ODA5NTE3fQ.Wi_k6fzr4O-vFlXgt_pd6p-5ijOLEPOtrFtkSzR6eEs
+
+
+        //Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjExMDA0LCJjcmVhdGVUaW1lIjoxNzA1MTY2MTQ3fQ.mSsvuDoWxtOSPhHbfqnIitFS9AXHqxsfSpj9-kzxdPw
         String login = loginService.login(UID);
         System.out.println(login);
     }

@@ -3,15 +3,13 @@ package com.dazhou.chatroom.common.common.service;
 import com.dazhou.chatroom.common.common.exception.BusinessException;
 import com.dazhou.chatroom.common.common.exception.CommonErrorEnum;
 import lombok.SneakyThrows;
-import org.checkerframework.checker.units.qual.A;
-import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
+
 
 /**
  * 分布式锁工具类
@@ -57,5 +55,14 @@ public class LockService {
             runnable.run();
             return null;
         });
+    }
+    public interface Supplier<T> {
+
+        /**
+         * Gets a result.
+         *
+         * @return a result
+         */
+        T get() throws Throwable;
     }
 }
