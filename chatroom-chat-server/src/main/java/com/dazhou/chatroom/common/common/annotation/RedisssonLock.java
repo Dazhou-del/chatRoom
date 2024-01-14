@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 分布式注解
+ * 分布式锁注解
  * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
  * @create 2024-01-14 0:32
  */
