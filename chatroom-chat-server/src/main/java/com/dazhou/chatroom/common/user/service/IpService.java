@@ -6,7 +6,7 @@ package com.dazhou.chatroom.common.user.service;
  */
 public interface IpService {
     /**
-     * 更新用户ip详情解析
+     * 异步更新用户ip详情解析
      * @param uid
      */
     void refreshIpDetailAsync(Long uid);

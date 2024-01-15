@@ -22,6 +22,7 @@ public class ThreadPoolConfig implements AsyncConfigurer {
      * 项目共用线程池
      */
     public static final String MALLCHAT_EXECUTOR = "chatRoomExecutor";
+
     /**
      * websocket通信线程池
      */
@@ -45,6 +46,24 @@ public class ThreadPoolConfig implements AsyncConfigurer {
         //设置前缀 出了问题方便排除
         executor.setThreadNamePrefix("chatRoom-executor-");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());//满了调用线程执行，认为重要任务
+        //设置自定义异常处理
+        executor.setThreadFactory(new MyThreadFactory(executor));
+        executor.initialize();
+        return executor;
+    }
+
+    @Bean(WS_EXECUTOR)
+    @Primary
+    public ThreadPoolTaskExecutor websocketExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        //这个设置是 在程序关闭时 是直接关闭线程 还是等待任务的执行完毕才关闭。false是直接关闭 所以这里改成true
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.setCorePoolSize(16);
+        executor.setMaxPoolSize(16);
+        executor.setQueueCapacity(10000);
+        //设置前缀 出了问题方便排除
+        executor.setThreadNamePrefix("websocket-executor-");
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());//满了直接丢弃
         //设置自定义异常处理
         executor.setThreadFactory(new MyThreadFactory(executor));
         executor.initialize();

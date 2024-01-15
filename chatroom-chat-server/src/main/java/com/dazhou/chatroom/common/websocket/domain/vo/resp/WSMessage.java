@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * Description: 用户消息推送
- * Author: <a href="https://github.com/zongzibinbin">abin</a>
+ * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
  * Date: 2023-03-19
  */
 @Data

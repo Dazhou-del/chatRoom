@@ -1,5 +1,7 @@
 package com.dazhou.chatroom.common.websocket.service;
 
+import com.dazhou.chatroom.common.websocket.domain.vo.req.WSBaseReq;
+import com.dazhou.chatroom.common.websocket.domain.vo.resp.WsBaseResp;
 import io.netty.channel.Channel;
 
 /**
@@ -41,4 +43,9 @@ public interface WebSocketService {
      * @param data
      */
     void authorizes(Channel channel, String data);
+
+    /**
+     * 发送消息给所有人
+     */
+    void sendMsgToAll(WsBaseResp<?> msg);
 }

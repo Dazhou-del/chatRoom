@@ -6,6 +6,9 @@ import com.dazhou.chatroom.common.common.event.UserOnlineEvent;
 import com.dazhou.chatroom.common.user.dao.UserDao;
 import com.dazhou.chatroom.common.user.domain.entity.IpInfo;
 import com.dazhou.chatroom.common.user.domain.entity.User;
+import com.dazhou.chatroom.common.user.domain.enums.RoleEnum;
+import com.dazhou.chatroom.common.user.service.IRoleService;
+import com.dazhou.chatroom.common.user.service.IUserRoleService;
 import com.dazhou.chatroom.common.user.service.LoginService;
 import com.dazhou.chatroom.common.websocket.NettyUtil;
 import com.dazhou.chatroom.common.websocket.domain.dto.WSChannelExtraDTO;
@@ -27,8 +30,10 @@ import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import org.apache.catalina.core.ApplicationPushBuilder;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -36,6 +41,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
@@ -57,7 +63,11 @@ public class WebSocketServiceImpl implements WebSocketService {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
-
+    @Autowired
+    private IRoleService roleService;
+    @Autowired
+    @Qualifier(value = "websocketExecutor")
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
     /**
      * 管理所有用户的连接（登录态/游客）
      */
@@ -163,13 +173,23 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
+    @Override
+    public void sendMsgToAll(WsBaseResp<?> msg) {
+        ONLINE_WS_MAP.forEach((channel,ext)->{
+            threadPoolTaskExecutor.execute(()->{
+                sendMsg(channel,msg);
+            });
+
+        });
+    }
+
     private void loginSuccess(Channel channel, User user, String token) {
         //保存channel的对应uid
         WSChannelExtraDTO wsChannelExtraDTO=ONLINE_WS_MAP.get(channel);
         wsChannelExtraDTO.setUid(user.getId());
         //推送成功信息
-        sendMsg(channel,WebSocketAdapter.buildResp(user,token));
-        //todo 用户上线成功的事件
+        sendMsg(channel,WebSocketAdapter.buildResp(user,token,roleService.hasPower(user.getId(), RoleEnum.CHAT_MANAGER)));
+        //用户上线成功的事件
         user.setLastOptTime(new Date());
         //更新用户ip
         user.refreshIp(NettyUtil.getAttr(channel,NettyUtil.IP));

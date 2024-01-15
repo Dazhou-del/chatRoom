@@ -16,11 +16,15 @@ public class InterceptorConfig implements WebMvcConfigurer {
     private TokenInterceptor tokenInterceptor;
     @Autowired
     private CollectorInterceptor collectorInterceptor;
+    @Autowired
+    private BlackInterceptor blackInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/capi/**");   //这里设置拦截器的位置 对应拦截器生效的位置
         registry.addInterceptor(collectorInterceptor)
+                .addPathPatterns("/capi/**");
+        registry.addInterceptor(blackInterceptor)
                 .addPathPatterns("/capi/**");
     }
 }

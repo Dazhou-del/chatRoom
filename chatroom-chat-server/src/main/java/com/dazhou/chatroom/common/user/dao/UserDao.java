@@ -1,5 +1,6 @@
 package com.dazhou.chatroom.common.user.dao;
 
+import com.dazhou.chatroom.common.common.domain.enums.YesOrNoEnum;
 import com.dazhou.chatroom.common.user.domain.entity.User;
 import com.dazhou.chatroom.common.user.mapper.UserMapper;
 import com.dazhou.chatroom.common.user.service.UserService;
@@ -40,6 +41,13 @@ public class UserDao extends ServiceImpl<UserMapper, User>  {
         lambdaUpdate()
                 .eq(User::getId,uid)
                 .set(User::getItemId,itemId)
+                .update();
+    }
+
+    public void invalidUid(Long id) {
+        lambdaUpdate()
+                .eq(User::getId,id)
+                .set(User::getStatus, YesOrNoEnum.YES.getStatus())
                 .update();
     }
 }

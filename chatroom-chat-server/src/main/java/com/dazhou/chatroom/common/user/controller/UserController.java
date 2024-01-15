@@ -5,11 +5,15 @@ import cn.hutool.http.HttpRequest;
 import com.dazhou.chatroom.common.common.domain.dto.RequestInfo;
 import com.dazhou.chatroom.common.common.domain.vo.resp.ApiResult;
 import com.dazhou.chatroom.common.common.interceptor.TokenInterceptor;
+import com.dazhou.chatroom.common.common.utils.AssertUtil;
 import com.dazhou.chatroom.common.common.utils.RequestHolder;
+import com.dazhou.chatroom.common.user.domain.enums.RoleEnum;
+import com.dazhou.chatroom.common.user.domain.vo.req.BlackReq;
 import com.dazhou.chatroom.common.user.domain.vo.req.ModifyNameReq;
 import com.dazhou.chatroom.common.user.domain.vo.req.WearingBadgeReq;
 import com.dazhou.chatroom.common.user.domain.vo.resp.BadgeResp;
 import com.dazhou.chatroom.common.user.domain.vo.resp.UserInfoResp;
+import com.dazhou.chatroom.common.user.service.IRoleService;
 import com.dazhou.chatroom.common.user.service.UserService;
 import com.dazhou.chatroom.common.user.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
@@ -37,6 +41,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private IRoleService roleService;
 
     @GetMapping("/userInfo")
     @ApiOperation("获取用户详细信息")
@@ -61,6 +67,16 @@ public class UserController {
     @ApiOperation("佩戴徽章")
     public ApiResult<Void> WearingBadge(@Valid @RequestBody WearingBadgeReq req){
         userService.WearingBadge(RequestHolder.get().getUid(),req.getItemId());
+        return ApiResult.success();
+    }
+
+    @PutMapping("/black")
+    @ApiOperation("拉黑用户")
+    public ApiResult<Void> black(@Valid @RequestBody BlackReq req){
+        Long uid = RequestHolder.get().getUid();
+        boolean hasPower = roleService.hasPower(uid, RoleEnum.ADMIN);
+        AssertUtil.isTrue(hasPower,"聊天管理员没权限");
+        userService.black(req);
         return ApiResult.success();
     }
 }

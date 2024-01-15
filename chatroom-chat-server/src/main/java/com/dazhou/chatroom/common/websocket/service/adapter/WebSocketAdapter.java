@@ -1,7 +1,9 @@
 package com.dazhou.chatroom.common.websocket.service.adapter;
 
+import com.dazhou.chatroom.common.common.domain.enums.YesOrNoEnum;
 import com.dazhou.chatroom.common.user.domain.entity.User;
 import com.dazhou.chatroom.common.websocket.domain.enums.WSRespTypeEnum;
+import com.dazhou.chatroom.common.websocket.domain.vo.resp.WSBlack;
 import com.dazhou.chatroom.common.websocket.domain.vo.resp.WSLoginSuccess;
 import com.dazhou.chatroom.common.websocket.domain.vo.resp.WSLoginUrl;
 import com.dazhou.chatroom.common.websocket.domain.vo.resp.WsBaseResp;
@@ -55,5 +57,30 @@ public class WebSocketAdapter {
         resp.setType(WSRespTypeEnum.LOGIN_SCAN_SUCCESS.getType());
 
         return  resp;
+    }
+
+    public static WsBaseResp<?> buildResp(User user, String token, boolean power) {
+        WsBaseResp<WSLoginSuccess> resp=new WsBaseResp<>();
+        resp.setType(WSRespTypeEnum.LOGIN_SUCCESS.getType());
+        WSLoginSuccess build = WSLoginSuccess.builder()
+                .avatar(user.getAvatar())
+                .name(user.getName())
+                .token(token)
+                .uid(user.getId())
+                .power(power? YesOrNoEnum.YES.getStatus() :YesOrNoEnum.No.getStatus())
+                .build();
+        resp.setData(build);
+        return  resp;
+    }
+
+
+    public static WsBaseResp<?> buildBlack(User user) {
+        WsBaseResp<Object> resp = new WsBaseResp<>();
+        resp.setType(WSRespTypeEnum.BLACK.getType());
+        WSBlack build = WSBlack.builder()
+                .uid(user.getId())
+                .build();
+        resp.setData(build);
+        return resp;
     }
 }

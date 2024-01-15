@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-01-14
  */
 @Service
-public class BlackDao extends ServiceImpl<BlackMapper, Black> implements IBlackService {
+public class BlackDao extends ServiceImpl<BlackMapper, Black>  {
 
 }

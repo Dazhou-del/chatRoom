@@ -1,6 +1,7 @@
 package com.dazhou.chatroom.common.user.service;
 
 import com.dazhou.chatroom.common.user.domain.entity.User;
+import com.dazhou.chatroom.common.user.domain.vo.req.BlackReq;
 import com.dazhou.chatroom.common.user.domain.vo.resp.BadgeResp;
 import com.dazhou.chatroom.common.user.domain.vo.resp.UserInfoResp;
 
@@ -45,4 +46,10 @@ public interface UserService {
      * @param itemId
      */
     void WearingBadge(Long uid, Long itemId);
+
+    /**
+     * 拉黑用户
+     * @param req
+     */
+    void black(BlackReq req);
 }

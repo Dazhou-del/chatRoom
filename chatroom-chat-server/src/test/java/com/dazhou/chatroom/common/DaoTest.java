@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -50,8 +51,7 @@ public class DaoTest {
     @Test
     public void jwt(){
 
-
-        //Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjExMDA0LCJjcmVhdGVUaW1lIjoxNzA1MTY2MTQ3fQ.mSsvuDoWxtOSPhHbfqnIitFS9AXHqxsfSpj9-kzxdPw
+        //Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjIwMDAwLCJjcmVhdGVUaW1lIjoxNzA1MzMxMDAxfQ.4yjHGob-wYkDLLsBsrgJf0XiTHpobAhG3gp57ivUe6Y
         String login = loginService.login(UID);
         System.out.println(login);
     }
@@ -68,6 +68,7 @@ public class DaoTest {
         System.out.println(byId);
     }
     @Autowired
+    @Qualifier(value ="chatRoomExecutor" )
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
     @Test
     public void ThreadTest() throws InterruptedException {
