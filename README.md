@@ -1,7 +1,7 @@
 # chatRoom客服系统
 今天学习了XXL-job
 架构图
-看
+看面试题
 
 ![img.png](img.png)
 
