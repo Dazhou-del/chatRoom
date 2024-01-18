@@ -5,6 +5,7 @@
 
 消息时序性
 消息id选型
+消息可靠ACk
 
 ![img.png](img.png)
 
