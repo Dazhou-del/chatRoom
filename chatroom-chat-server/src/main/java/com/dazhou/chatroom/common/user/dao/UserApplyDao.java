@@ -1,6 +1,7 @@
 package com.dazhou.chatroom.common.user.dao;
 
 import com.dazhou.chatroom.common.user.domain.entity.UserApply;
+import com.dazhou.chatroom.common.user.domain.enums.ApplyReadStatusEnum;
 import com.dazhou.chatroom.common.user.domain.enums.ApplyStatusEnum;
 import com.dazhou.chatroom.common.user.domain.enums.ApplyTypeEnum;
 import com.dazhou.chatroom.common.user.mapper.UserApplyMapper;
@@ -31,5 +32,11 @@ public class UserApplyDao extends ServiceImpl<UserApplyMapper, UserApply> implem
         lambdaUpdate().set(UserApply::getStatus, ApplyStatusEnum.AGREE.getCode())
                 .eq(UserApply::getId, applyId)
                 .update();
+    }
+
+    public Integer getUnReadCount(Long targetId) {
+        return lambdaQuery().eq(UserApply::getTargetId, targetId)
+                .eq(UserApply::getReadStatus, ApplyReadStatusEnum.UNREAD.getCode())
+                .count();
     }
 }
