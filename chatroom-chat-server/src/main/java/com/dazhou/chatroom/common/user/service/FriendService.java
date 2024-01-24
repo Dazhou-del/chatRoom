@@ -1,5 +1,7 @@
 package com.dazhou.chatroom.common.user.service;
 
+import com.dazhou.chatroom.common.user.domain.vo.req.FriendApplyReq;
+import com.dazhou.chatroom.common.user.domain.vo.req.FriendApproveReq;
 import com.dazhou.chatroom.common.user.domain.vo.req.FriendCheckReq;
 import com.dazhou.chatroom.common.user.domain.vo.resp.FriendCheckResp;
 
@@ -17,4 +19,19 @@ public interface FriendService {
      * @return
      */
     FriendCheckResp check(Long uid, FriendCheckReq request);
+
+    /**
+     * 申请好友
+     * @param uid
+     * @param request
+     */
+    void apply(Long uid, FriendApplyReq request);
+
+    /**
+     * 同意好友申请
+     *
+     * @param uid     uid
+     * @param request 请求
+     */
+    void applyApprove(Long uid, FriendApproveReq request);
 }
