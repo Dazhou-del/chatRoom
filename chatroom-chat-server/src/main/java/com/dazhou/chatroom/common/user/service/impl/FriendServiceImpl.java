@@ -69,15 +69,17 @@ public class FriendServiceImpl implements FriendService {
         //1.判断是否有好友关系
         UserFriend friend = userFriendDao.getByFriend(uid, request.getTargetUid());
         AssertUtil.isEmpty(friend, "你们已经是好友了");
-        //2.判断是否有待审批的申请记录（自己的) 查待审批申请类型为加好友的
+        //2.判断是否有待审批的申请记录（自己的) 查待审批申请类型为加好友的  是否有我向别人发送好友申请的记录
         UserApply selfApproving = userApplyDao.getFriendApproving(uid, request.getTargetUid());
         if (Objects.nonNull(selfApproving)) {
             log.info("已有好友申请记录,uid:{}, targetId:{}", uid, request.getTargetUid());
             return;
         }
-        //3.判断是否有待审批的申请记录(别人请求自己的)
+        //3.判断是否有待审批的申请记录(别人请求自己的) 是否有别人向我发送好友请求
         UserApply friendApproving = userApplyDao.getFriendApproving(request.getTargetUid(), uid);
         if (Objects.nonNull(friendApproving)) {
+            //如果有记录就直接同意好友申请
+            //同意好友申请
             ((FriendService) AopContext.currentProxy()).applyApprove(uid, new FriendApproveReq(friendApproving.getId()));
             return;
         }
@@ -100,7 +102,7 @@ public class FriendServiceImpl implements FriendService {
         userApplyDao.agree(request.getApplyId());
         //创建双方好友关系
         createFriend(uid, userApply.getUid());
-//        创建一个聊天房间
+        //创建一个聊天房间
         RoomFriend roomFriend = roomService.createFriendRoom(Arrays.asList(uid, userApply.getUid()));
         //发送一条同意消息。。我们已经是好友了，开始聊天吧
 //        chatService.sendMsg(MessageAdapter.buildAgreeMsg(roomFriend.getRoomId()), uid);
