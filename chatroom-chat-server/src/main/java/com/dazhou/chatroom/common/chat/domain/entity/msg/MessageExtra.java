@@ -1,5 +1,6 @@
 package com.dazhou.chatroom.common.chat.domain.entity.msg;
 
+import com.dazhou.chatroom.common.common.utils.discover.domain.UrlInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

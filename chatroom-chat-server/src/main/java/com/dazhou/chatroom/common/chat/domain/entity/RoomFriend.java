@@ -11,14 +11,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 会话列表
+ * 单聊房间表
  * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
- * @create 2024-02-03 23:48
+ * @create 2024-02-03 23:57
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("contact")
-public class Contact implements Serializable {
+@TableName("room_friend")
+public class RoomFriend implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,34 +29,34 @@ public class Contact implements Serializable {
     private Long id;
 
     /**
-     * uid
-     */
-    @TableField("uid")
-    private Long uid;
-
-    /**
      * 房间id
      */
     @TableField("room_id")
     private Long roomId;
 
     /**
-     * 阅读到的时间
+     * uid1（更小的uid）
      */
-    @TableField("read_time")
-    private Date readTime;
+    @TableField("uid1")
+    private Long uid1;
 
     /**
-     * 会话内消息最后更新的时间(只有普通会话需要维护，全员会话不需要维护)
+     * uid2（更大的uid）
      */
-    @TableField("active_time")
-    private Date activeTime;
+    @TableField("uid2")
+    private Long uid2;
 
     /**
-     * 最后一条消息id
+     * 房间key由两个uid拼接，先做排序uid1_uid2
      */
-    @TableField("last_msg_id")
-    private Long lastMsgId;
+    @TableField("room_key")
+    private String roomKey;
+
+    /**
+     * 房间状态 0正常 1禁用(删好友了禁用)
+     */
+    @TableField("status")
+    private Integer status;
 
     /**
      * 创建时间
@@ -69,6 +69,5 @@ public class Contact implements Serializable {
      */
     @TableField("update_time")
     private Date updateTime;
-
 
 }

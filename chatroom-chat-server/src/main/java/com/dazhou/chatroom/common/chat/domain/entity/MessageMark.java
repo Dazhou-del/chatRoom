@@ -4,21 +4,23 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 会话列表
+ * 消息标记表
  * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
- * @create 2024-02-03 23:48
+ * @create 2024-02-03 23:56
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("contact")
-public class Contact implements Serializable {
+@TableName("message_mark")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class MessageMark implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,34 +31,30 @@ public class Contact implements Serializable {
     private Long id;
 
     /**
-     * uid
+     * 消息表id
+     */
+    @TableField("msg_id")
+    private Long msgId;
+
+    /**
+     * 标记人uid
      */
     @TableField("uid")
     private Long uid;
 
     /**
-     * 房间id
+     * 标记类型 1点赞 2举报
+     *
+     * @see
      */
-    @TableField("room_id")
-    private Long roomId;
+    @TableField("type")
+    private Integer type;
 
     /**
-     * 阅读到的时间
+     * 消息状态 0正常 1取消
      */
-    @TableField("read_time")
-    private Date readTime;
-
-    /**
-     * 会话内消息最后更新的时间(只有普通会话需要维护，全员会话不需要维护)
-     */
-    @TableField("active_time")
-    private Date activeTime;
-
-    /**
-     * 最后一条消息id
-     */
-    @TableField("last_msg_id")
-    private Long lastMsgId;
+    @TableField("status")
+    private Integer status;
 
     /**
      * 创建时间

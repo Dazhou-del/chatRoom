@@ -4,21 +4,23 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 会话列表
+ * 群成员表
  * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
- * @create 2024-02-03 23:48
+ * @create 2024-02-03 23:55
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("contact")
-public class Contact implements Serializable {
+@TableName("group_member")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class GroupMember implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,34 +31,24 @@ public class Contact implements Serializable {
     private Long id;
 
     /**
-     * uid
+     * 群组id
+     */
+    @TableField("group_id")
+    private Long groupId;
+
+    /**
+     * 成员uid
      */
     @TableField("uid")
     private Long uid;
 
     /**
-     * 房间id
+     * 成员角色1群主(可撤回，可移除，可解散) 2管理员(可撤回，可移除) 3普通成员
+     *
+     * @see com.abin.mallchat.common.chat.domain.enums.GroupRoleEnum
      */
-    @TableField("room_id")
-    private Long roomId;
-
-    /**
-     * 阅读到的时间
-     */
-    @TableField("read_time")
-    private Date readTime;
-
-    /**
-     * 会话内消息最后更新的时间(只有普通会话需要维护，全员会话不需要维护)
-     */
-    @TableField("active_time")
-    private Date activeTime;
-
-    /**
-     * 最后一条消息id
-     */
-    @TableField("last_msg_id")
-    private Long lastMsgId;
+    @TableField("role")
+    private Integer role;
 
     /**
      * 创建时间

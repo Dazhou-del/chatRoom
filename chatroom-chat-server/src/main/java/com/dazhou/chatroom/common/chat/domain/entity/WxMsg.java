@@ -11,14 +11,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 会话列表
+ * 微信消息表
  * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
- * @create 2024-02-03 23:48
+ * @create 2024-02-03 23:57
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("contact")
-public class Contact implements Serializable {
+@TableName("wx_msg")
+public class WxMsg implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,34 +29,16 @@ public class Contact implements Serializable {
     private Long id;
 
     /**
-     * uid
+     * 微信openid用户标识
      */
-    @TableField("uid")
-    private Long uid;
+    @TableField("open_id")
+    private String openId;
 
     /**
-     * 房间id
+     * 用户消息
      */
-    @TableField("room_id")
-    private Long roomId;
-
-    /**
-     * 阅读到的时间
-     */
-    @TableField("read_time")
-    private Date readTime;
-
-    /**
-     * 会话内消息最后更新的时间(只有普通会话需要维护，全员会话不需要维护)
-     */
-    @TableField("active_time")
-    private Date activeTime;
-
-    /**
-     * 最后一条消息id
-     */
-    @TableField("last_msg_id")
-    private Long lastMsgId;
+    @TableField("msg")
+    private String msg;
 
     /**
      * 创建时间
