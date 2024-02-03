@@ -2,28 +2,24 @@ package com.dazhou.chatroom.common.chat.domain.entity.msg;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 文件基类
+ * 表情图片消息入参
  * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
- * @create 2024-02-03 23:47
+ * @create 2024-02-03 23:50
  */
 @Data
-@SuperBuilder
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseFileDTO implements Serializable {
+public class EmojisMsgDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ApiModelProperty("大小（字节）")
-    @NotNull
-    private Long size;
 
     @ApiModelProperty("下载地址")
     @NotBlank

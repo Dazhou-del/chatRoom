@@ -3,29 +3,27 @@ package com.dazhou.chatroom.common.chat.domain.entity.msg;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 文件基类
+ * 语音消息入参
  * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
- * @create 2024-02-03 23:47
+ * @create 2024-02-03 23:52
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseFileDTO implements Serializable {
+public class SoundMsgDTO extends BaseFileDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    @ApiModelProperty("大小（字节）")
-    @NotNull
-    private Long size;
 
-    @ApiModelProperty("下载地址")
-    @NotBlank
-    private String url;
+    @ApiModelProperty("时长（秒）")
+    @NotNull
+    private Integer second;
 }
