@@ -59,7 +59,7 @@ public class Message implements Serializable {
     /**
      * 消息状态 0正常 1删除
      *
-     * @see com.abin.mallchat.common.chat.domain.enums.MessageStatusEnum
+     * @see com.dazhou.chatroom.common.chat.domain.enums.MessageStatusEnum
      */
     @TableField("status")
     private Integer status;
@@ -73,7 +73,7 @@ public class Message implements Serializable {
     /**
      * 消息类型 1正常文本 2.撤回消息
      *
-     * @see com.abin.mallchat.common.chat.domain.enums.MessageTypeEnum
+     * @see com.dazhou.chatroom.common.chat.domain.enums.MessageTypeEnum
      */
     @TableField("type")
     private Integer type;

@@ -33,7 +33,7 @@ public class Room implements Serializable {
     /**
      * 房间类型 1群聊 2单聊
      *
-     * @see com.abin.mallchat.common.chat.domain.enums.RoomTypeEnum
+     * @see com.dazhou.chatroom.common.chat.domain.enums.RoomTypeEnum
      */
     @TableField("type")
     private Integer type;
@@ -41,7 +41,7 @@ public class Room implements Serializable {
     /**
      * 是否全员展示 0否 1是
      *
-     * @see com.abin.mallchat.common.chat.domain.enums.HotFlagEnum
+     * @see com.dazhou.chatroom.common.chat.domain.enums.HotFlagEnum
      */
     @TableField("hot_flag")
     private Integer hotFlag;

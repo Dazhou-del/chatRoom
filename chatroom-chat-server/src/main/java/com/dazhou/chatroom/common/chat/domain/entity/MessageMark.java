@@ -45,7 +45,7 @@ public class MessageMark implements Serializable {
     /**
      * 标记类型 1点赞 2举报
      *
-     * @see
+     * @see com.dazhou.chatroom.common.chat.domain.enums.MessageMarkTypeEnum
      */
     @TableField("type")
     private Integer type;
