@@ -1,0 +1,15 @@
+package com.dazhou.chatroom.common.chat.dao;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.dazhou.chatroom.common.chat.domain.entity.Message;
+import com.dazhou.chatroom.common.chat.mapper.MessageMapper;
+import org.springframework.stereotype.Service;
+
+/**
+ * 消息表 服务实现类
+ * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
+ * @create 2024-02-04 0:34
+ */
+@Service
+public class MessageDao extends ServiceImpl<MessageMapper, Message> {
+}
