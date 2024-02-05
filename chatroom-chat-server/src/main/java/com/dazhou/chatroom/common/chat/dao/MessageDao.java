@@ -2,8 +2,14 @@ package com.dazhou.chatroom.common.chat.dao;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dazhou.chatroom.common.chat.domain.entity.Message;
+import com.dazhou.chatroom.common.chat.domain.enums.MessageStatusEnum;
 import com.dazhou.chatroom.common.chat.mapper.MessageMapper;
+import com.dazhou.chatroom.common.common.domain.vo.req.CursorPageBaseReq;
+import com.dazhou.chatroom.common.common.domain.vo.resp.CursorPageBaseResp;
+import com.dazhou.chatroom.common.common.utils.CursorUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * 消息表 服务实现类
@@ -12,4 +18,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MessageDao extends ServiceImpl<MessageMapper, Message> {
+    public CursorPageBaseResp<Message> getCursorPage(Long roomId, CursorPageBaseReq request, Long lastMsgId) {
+        return CursorUtils.getCursorPageByMysql(this, request, wrapper -> {
+            wrapper.eq(Message::getRoomId, roomId);
+            wrapper.eq(Message::getStatus, MessageStatusEnum.NORMAL.getStatus());
+            wrapper.le(Objects.nonNull(lastMsgId), Message::getId, lastMsgId);
+        }, Message::getId);
+    }
 }

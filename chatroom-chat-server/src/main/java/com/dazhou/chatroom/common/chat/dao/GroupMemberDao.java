@@ -12,4 +12,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class GroupMemberDao extends ServiceImpl<GroupMemberMapper, GroupMember> {
+    public GroupMember getMember(Long groupId, Long uid) {
+        return lambdaQuery()
+                .eq(GroupMember::getGroupId, groupId)
+                .eq(GroupMember::getUid, uid)
+                .one();
+    }
 }
