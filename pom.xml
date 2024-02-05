@@ -12,6 +12,7 @@
         <module>chatroom-chat-server</module>
         <module>chatroom-framwork</module>
         <module>chatroom-framwork/chatroom-common-starter</module>
+        <module>chatroom-framwork/chatroom-transaction</module>
     </modules>
 
     <properties>

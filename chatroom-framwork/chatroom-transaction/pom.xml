@@ -4,17 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.example</groupId>
-        <artifactId>chatroom-backend</artifactId>
+        <groupId>com.dazhou</groupId>
+        <artifactId>chatroom-framwork</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.dazhou</groupId>
-    <artifactId>chatroom-framwork</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>chatroom-transaction</module>
-    </modules>
+    <artifactId>chatroom-transaction</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -22,4 +17,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.dazhou</groupId>
+            <artifactId>chatroom-common-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>chatroom-chat-server</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>
