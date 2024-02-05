@@ -9,8 +9,8 @@ import com.dazhou.chatroom.common.chat.domain.enums.MessageTypeEnum;
 import com.dazhou.chatroom.common.chat.domain.vo.request.ChatMessageReq;
 import com.dazhou.chatroom.common.chat.domain.vo.request.TextMsgReq;
 import com.dazhou.chatroom.common.chat.domain.vo.response.ChatMessageResp;
-import com.dazhou.chatroom.common.chat.service.strategy.AbstractMsgHandler;
-import com.dazhou.chatroom.common.chat.service.strategy.MsgHandlerFactory;
+import com.dazhou.chatroom.common.chat.service.strategy.msg.AbstractMsgHandler;
+import com.dazhou.chatroom.common.chat.service.strategy.msg.MsgHandlerFactory;
 import com.dazhou.chatroom.common.common.domain.enums.YesOrNoEnum;
 
 import java.util.*;

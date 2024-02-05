@@ -1,4 +1,4 @@
-package com.dazhou.chatroom.common.chat.service.strategy;
+package com.dazhou.chatroom.common.chat.service.strategy.msg;
 
 import com.dazhou.chatroom.common.common.exception.CommonErrorEnum;
 import com.dazhou.chatroom.common.common.utils.AssertUtil;

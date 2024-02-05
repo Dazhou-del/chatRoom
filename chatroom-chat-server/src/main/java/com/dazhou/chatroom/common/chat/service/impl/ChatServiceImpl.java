@@ -11,12 +11,11 @@ import com.dazhou.chatroom.common.chat.domain.vo.response.ChatMessageResp;
 import com.dazhou.chatroom.common.chat.service.ChatService;
 import com.dazhou.chatroom.common.chat.service.cache.RoomCache;
 import com.dazhou.chatroom.common.chat.service.cache.RoomGroupCache;
-import com.dazhou.chatroom.common.chat.service.strategy.AbstractMsgHandler;
-import com.dazhou.chatroom.common.chat.service.strategy.MsgHandlerFactory;
+import com.dazhou.chatroom.common.chat.service.strategy.msg.AbstractMsgHandler;
+import com.dazhou.chatroom.common.chat.service.strategy.msg.MsgHandlerFactory;
 import com.dazhou.chatroom.common.common.utils.AssertUtil;
 import com.dazhou.chatroom.common.user.domain.enums.NormalOrNoEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

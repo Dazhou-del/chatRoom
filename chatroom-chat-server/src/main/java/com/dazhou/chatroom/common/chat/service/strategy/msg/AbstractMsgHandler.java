@@ -1,4 +1,4 @@
-package com.dazhou.chatroom.common.chat.service.strategy;
+package com.dazhou.chatroom.common.chat.service.strategy.msg;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.dazhou.chatroom.common.chat.dao.MessageDao;
@@ -7,7 +7,6 @@ import com.dazhou.chatroom.common.chat.domain.enums.MessageTypeEnum;
 import com.dazhou.chatroom.common.chat.domain.vo.request.ChatMessageReq;
 import com.dazhou.chatroom.common.chat.service.adapter.MessageAdapter;
 import com.dazhou.chatroom.common.common.utils.AssertUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
