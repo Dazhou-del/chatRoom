@@ -3,6 +3,7 @@ package com.dazhou.chatroom.common.common.utils.discover.domain;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 
+import com.dazhou.chatroom.common.common.utils.FutureUtils;
 import io.micrometer.core.lang.Nullable;
 import lombok.extern.slf4j.Slf4j;
 
