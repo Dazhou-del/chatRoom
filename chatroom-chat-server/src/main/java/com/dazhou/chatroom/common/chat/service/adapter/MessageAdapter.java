@@ -36,6 +36,7 @@ public class MessageAdapter {
     }
 
     public static List<ChatMessageResp> buildMsgResp(List<Message> messages, List<MessageMark> msgMark, Long receiveUid) {
+        //将id取出来 与列表组成一个map
         Map<Long, List<MessageMark>> markMap = msgMark.stream().collect(Collectors.groupingBy(MessageMark::getMsgId));
         return messages.stream().map(a -> {
                     ChatMessageResp resp = new ChatMessageResp();

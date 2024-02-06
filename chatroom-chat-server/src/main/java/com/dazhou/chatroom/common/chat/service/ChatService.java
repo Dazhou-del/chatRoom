@@ -1,7 +1,9 @@
 package com.dazhou.chatroom.common.chat.service;
 
+import com.dazhou.chatroom.common.chat.domain.vo.request.ChatMessagePageReq;
 import com.dazhou.chatroom.common.chat.domain.vo.request.ChatMessageReq;
 import com.dazhou.chatroom.common.chat.domain.vo.response.ChatMessageResp;
+import com.dazhou.chatroom.common.common.domain.vo.resp.CursorPageBaseResp;
 
 /**
  * 消息处理类
@@ -24,4 +26,12 @@ public interface ChatService {
      * @return
      */
     ChatMessageResp getMsgResp(Long msgId, Long uid);
+
+    /**
+     * 获取消息列表
+     * @param request
+     * @param uid
+     * @return
+     */
+    CursorPageBaseResp<ChatMessageResp> getMsgPage(ChatMessagePageReq request, Long uid);
 }

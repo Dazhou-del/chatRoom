@@ -52,9 +52,13 @@ public class UserCache {
      */
     @Cacheable(cacheNames = "user", key = "'blackList'")
     public Map<Integer, Set<String>> getBlackMap() {
+        //获取黑名单对象 将id与对象组成一个map
         Map<Integer, List<Black>> collect = blackDao.list().stream().collect(Collectors.groupingBy(Black::getType));
+        //new 一个HaspMap
         Map<Integer, Set<String>> result = new HashMap<>(collect.size());
+
         for (Map.Entry<Integer, List<Black>> entry : collect.entrySet()) {
+            //将对象的id 放入map中，然后将对象中黑名单的uid取出来
             result.put(entry.getKey(), entry.getValue().stream().map(Black::getTarget).collect(Collectors.toSet()));
         }
         return result;

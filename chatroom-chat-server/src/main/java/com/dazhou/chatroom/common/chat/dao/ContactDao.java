@@ -12,4 +12,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ContactDao extends ServiceImpl<ContactMapper, Contact> {
+    public Contact get(Long uid, Long roomId) {
+        return lambdaQuery()
+                .eq(Contact::getUid, uid)
+                .eq(Contact::getRoomId, roomId)
+                .one();
+    }
 }

@@ -20,6 +20,7 @@ import java.util.Objects;
 public class MessageDao extends ServiceImpl<MessageMapper, Message> {
     public CursorPageBaseResp<Message> getCursorPage(Long roomId, CursorPageBaseReq request, Long lastMsgId) {
         return CursorUtils.getCursorPageByMysql(this, request, wrapper -> {
+            //额外的
             wrapper.eq(Message::getRoomId, roomId);
             wrapper.eq(Message::getStatus, MessageStatusEnum.NORMAL.getStatus());
             wrapper.le(Objects.nonNull(lastMsgId), Message::getId, lastMsgId);
