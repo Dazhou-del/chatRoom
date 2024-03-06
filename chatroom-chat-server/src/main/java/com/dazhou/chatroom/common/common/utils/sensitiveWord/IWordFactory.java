@@ -1,4 +1,4 @@
-package com.dazhou.chatroom.common.common.utils.discover.sensitiveWord;
+package com.dazhou.chatroom.common.common.utils.sensitiveWord;
 
 import java.util.List;
 

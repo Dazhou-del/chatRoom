@@ -1,4 +1,6 @@
-package com.dazhou.chatroom.common.common.utils.discover.sensitiveWord;
+package com.dazhou.chatroom.common.common.utils.sensitiveWord;
+
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -7,6 +9,7 @@ import java.util.List;
  * @author <a href="https://github.com/Dazhou-del">Dazhou</a>
  * @create 2024-02-05 19:31
  */
+@Component
 public class SensitiveWordBs {
 
     /**

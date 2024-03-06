@@ -26,4 +26,12 @@ public class MessageDao extends ServiceImpl<MessageMapper, Message> {
             wrapper.le(Objects.nonNull(lastMsgId), Message::getId, lastMsgId);
         }, Message::getId);
     }
+
+    public Integer getGapCount(Long roomId, Long fromId, Long toId) {
+        return lambdaQuery()
+                .eq(Message::getRoomId, roomId)
+                .gt(Message::getId, fromId)
+                .le(Message::getId, toId)
+                .count();
+    }
 }

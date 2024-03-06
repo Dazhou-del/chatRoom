@@ -1,4 +1,4 @@
-package com.dazhou.chatroom.common.common.utils.discover.sensitiveWord;
+package com.dazhou.chatroom.common.common.utils.sensitiveWord;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
